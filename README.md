@@ -2,6 +2,36 @@
 
 SMTP connector using Net_SMTP PEAR library.
 
+## But why?
+
+Drupal contrib already has a nice SMTP module called "SMTP" which can be found
+at the following URL:
+
+    http://www.drupal.org/project/smtp
+
+But in real life, this modules attempts to use the PHPMailer library to connect
+to the SMTP server, which can found at:
+
+    https://github.com/PHPMailer/PHPMailer
+
+If you look at it a bit more, you'll see that PHPMailer is not an SMTP
+connector, while it can, its main goal is to format the MIME messages for
+you.
+
+Whenever you use Drupal with a module such as MIMEMail which can be found at:
+
+    http://www.drupal.org/project/mimemail
+
+you'll notice that your messages are already well formatted in a very precise
+and valid MIME enveloppe.
+
+*What happens behind this scenario is that the SMTP module needs to deconstruct
+the valid MIME encoded message in order to be able to use the PHPMailer API
+which then will attempt to rebuild a MIME message.*
+
+In real life, it does not, it does deconstrut your MIME encoded message, but in
+a very wrong way, and breaks it in a lot cases.
+
 ## Runtime configuration
 
 ### Drupal mail system configuration
@@ -109,7 +139,13 @@ messages this module will send onto the file system. Just set:
 
     $conf['netsmtp_debug_mime'] = true,
 
-And every mail will be dumped into the Drupal temporary://netsmtp/ folder.
+And every mail will be dumped into the Drupal:
+
+    temporary://netsmtp/
+
+temp folder.
+
+NOTE: This is yet to be implemented.
 
 ## Bundled libraries
 
@@ -118,21 +154,18 @@ simplicity.
 
 ### PEAR ###
 
-PEAR v1.9.5
-Licensed under The New BSD License
+PEAR v1.9.5 - Licensed under The New BSD License
 
 Note that if you have a PHP compiled with the PEAR option native one will
 be used instead. This should not be a problem.
 
 ### Net_Socket ###
 
-Net_Socket v1.0.14
-Licensed under the PHP Licence v3.01
+Net_Socket v1.0.14 - Licensed under the PHP Licence v3.01
 
 ### Net_SMTP ### 
 
-Net_SMTP v1.6.2
-Licensed under the PHP Licence v3.01
+Net_SMTP v1.6.2 - Licensed under the PHP Licence v3.01
 
 ## Note about the autoloader
 
