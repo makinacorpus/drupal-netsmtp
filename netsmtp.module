@@ -1,0 +1,30 @@
+<?php
+/**
+ * @file
+ * Net SMTP module.
+ */
+
+/**
+ * Implements hook_boot().
+ */
+function netsmtp_boot() {
+  if (!variable_get('netsmtp_autoload_disable')) {
+    spl_autoload_register(function ($name) {
+      // This is rudimentary, but it works fine.
+      if ('Net_SMTP' === $name) {
+        return include_once __DIR__ . '/lib/Net/SMTP.php';
+      } else if ('Net_Socket' === $name) {
+        return include_once __DIR__ . '/lib/Net/Socket.php';
+      } else if ('PEAR' === $name) {
+        return include_once __DIR__ . '/lib/PEAR.php';
+      } else if ('PEAR5' === $name) {
+        return include_once __DIR__ . '/lib/PEAR5.php';
+      } else if ('NetStmp_DrupalMailSystem' === $name) {
+        return include_once __DIR__ . '/lib/NetSmtp/DrupalMailSystem.php';
+      } else if ('NetSmtp_MailSystemProxy' === $name) {
+        return include_once __DIR__ . '/lib/NetSmtp/MailSystemProxy.php';
+      }
+      return false;
+    });
+  }
+}
