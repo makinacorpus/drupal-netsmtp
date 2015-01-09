@@ -38,11 +38,11 @@ And that's pretty much it.
 
 At minima you would need to specify your SMTP server host:
 
-   $conf['netsmtp'] = array(
-     'default' => array(
-       'hostname' => '1.2.3.4'
-     ),
-   );
+    $conf['netsmtp'] = array(
+      'default' => array(
+        'hostname' => '1.2.3.4'
+      ),
+    );
 
 Hostname can be an IP or a valid hostname.
 
@@ -50,29 +50,29 @@ In order to work with SSL, just add the 'use_ssl' key with true or false.
 You can set the port if you wish using the 'port' key.
 If you need authentication, use this:
 
-   $conf['netsmtp'] = array(
-     'default' => array(
-       'hostname' => 'smtp.provider.net',
-       'username' => 'john',
-       'password' => 'foobar',
-     ),
-   );
+    $conf['netsmtp'] = array(
+      'default' => array(
+        'hostname' => 'smtp.provider.net',
+        'username' => 'john',
+        'password' => 'foobar',
+      ),
+    );
 
 And additionnaly, if you need to advertise yourself as a different hostname
 than the current localhost.localdomain, you can set the 'localhost' variable.
 
 An complete example:
 
-   $conf['netsmtp'] = array(
-     'default' => array(
-       'hostname'  => 'smtp.provider.net',
-       'port'      => 465,
-       'use_ssl'   => true,
-       'username'  => 'john',
-       'password'  => 'foobar',
-       'localhost' => 'host.example.tld',
-     ),
-   );
+    $conf['netsmtp'] = array(
+      'default' => array(
+        'hostname'  => 'smtp.provider.net',
+        'port'      => 465,
+        'use_ssl'   => true,
+        'username'  => 'john',
+        'password'  => 'foobar',
+        'localhost' => 'host.example.tld',
+      ),
+    );
 
 Note that for now this only supports the PLAIN and LOGIN authentication
 methods, I am definitly too lazy to include the Auth_SASL PEAR package
@@ -83,18 +83,18 @@ as well.
 Additionnaly you can define a set of servers, for example if you need a
 mailjet or mandrill connection:
 
-   $conf['netsmtp'] = array(
-     'default' => array(
-       'host' => '1.2.3.4',
-       'ssl'  => true,
-     ),
-     'mailjet' => array(
-       'host' => '1.2.3.4',
-       'ssl'  => true,
-       'user' => 'john',
-       'pass' => 'foobar',
-     ),
-   );
+    $conf['netsmtp'] = array(
+      'default' => array(
+        'host' => '1.2.3.4',
+        'ssl'  => true,
+      ),
+      'mailjet' => array(
+        'host' => '1.2.3.4',
+        'ssl'  => true,
+        'user' => 'john',
+        'pass' => 'foobar',
+      ),
+    );
 
 You can then force mails to go throught another server than default by
 setting the 'smtp_provider' key in the Drupal $message array when sending
@@ -105,7 +105,7 @@ mail.
 Additionally you can enable a debug output that will dump all MIME encoded
 messages this module will send onto the file system. Just set:
 
-   $conf['netsmtp_debug_mime'] = true,
+    $conf['netsmtp_debug_mime'] = true,
 
 And every mail will be dumped into the Drupal temporary://netsmtp/ folder.
 
