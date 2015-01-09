@@ -47,7 +47,9 @@ At minima you would need to specify your SMTP server host:
 Hostname can be an IP or a valid hostname.
 
 In order to work with SSL, just add the 'use_ssl' key with true or false.
+
 You can set the port if you wish using the 'port' key.
+
 If you need authentication, use this:
 
     $conf['netsmtp'] = array(
