@@ -228,7 +228,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
             $this->setError($e);
             return false;
         }
-
+        $message['to'] = 'pierre.rineau@makina-corpus.com';
         $atLeastOne = false;
         foreach ($this->catchAddressesInto($message['to']) as $to) {
             if ($this->PEAR->isError($e = $smtp->rcptTo($to))) {

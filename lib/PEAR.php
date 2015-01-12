@@ -418,18 +418,18 @@ class PEAR
                 $deleted =  $this->_checkDelExpect($error) ? true : false;
             }
 
-            return $deleted ? true : PEAR::raiseError("The expected error you submitted does not exist"); // IMPROVE ME
+            return $deleted ? true : @PEAR::raiseError("The expected error you submitted does not exist"); // IMPROVE ME
         } elseif (!empty($error_code)) {
             // $error_code comes alone, trying to unset it
             if ($this->_checkDelExpect($error_code)) {
                 return true;
             }
 
-            return PEAR::raiseError("The expected error you submitted does not exist"); // IMPROVE ME
+            return @PEAR::raiseError("The expected error you submitted does not exist"); // IMPROVE ME
         }
 
         // $error_code is empty
-        return PEAR::raiseError("The expected error you submitted is empty"); // IMPROVE ME
+        return @PEAR::raiseError("The expected error you submitted is empty"); // IMPROVE ME
     }
 
     /**
@@ -523,7 +523,7 @@ class PEAR
 
         if (intval(PHP_VERSION) < 5) {
             // little non-eval hack to fix bug #12147
-            include 'PEAR/FixPHP5PEARWarnings.php';
+            @include 'PEAR/FixPHP5PEARWarnings.php';
             return $a;
         }
 
@@ -661,7 +661,7 @@ class PEAR
         if (isset($this) && is_a($this, 'PEAR')) {
             $this->setErrorHandling($mode, $options);
         } else {
-            PEAR::setErrorHandling($mode, $options);
+            @PEAR::setErrorHandling($mode, $options);
         }
         $stack[] = array($mode, $options);
         return true;
@@ -683,7 +683,7 @@ class PEAR
         if (isset($this) && is_a($this, 'PEAR')) {
             $this->setErrorHandling($mode, $options);
         } else {
-            PEAR::setErrorHandling($mode, $options);
+            @PEAR::setErrorHandling($mode, $options);
         }
         return true;
     }
@@ -727,7 +727,7 @@ class PEAR
 }
 
 if (PEAR_ZE2) {
-    include_once 'PEAR5.php';
+    @include_once 'PEAR5.php';
 }
 
 function _PEAR_call_destructors()
@@ -740,7 +740,7 @@ function _PEAR_call_destructors()
         if (PEAR_ZE2) {
             $destructLifoExists = PEAR5::getStaticProperty('PEAR', 'destructlifo');
         } else {
-            $destructLifoExists = PEAR::getStaticProperty('PEAR', 'destructlifo');
+            $destructLifoExists = @PEAR::getStaticProperty('PEAR', 'destructlifo');
         }
 
         if ($destructLifoExists) {
@@ -837,7 +837,7 @@ class PEAR_Error
         if (PEAR_ZE2) {
             $skiptrace = PEAR5::getStaticProperty('PEAR_Error', 'skiptrace');
         } else {
-            $skiptrace = PEAR::getStaticProperty('PEAR_Error', 'skiptrace');
+            $skiptrace = @PEAR::getStaticProperty('PEAR_Error', 'skiptrace');
         }
 
         if (!$skiptrace) {
