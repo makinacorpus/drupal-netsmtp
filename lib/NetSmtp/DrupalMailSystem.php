@@ -121,6 +121,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
      */
     protected function getInstance($provider = self::PROVIDER_DEFAULT)
     {
+        $isTLS = false;
         $config = variable_get('netsmtp');
 
         if (empty($config[$provider])) {
@@ -147,6 +148,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
         if ($info['use_ssl']) {
             if ('tls' === $info['use_ssl']) {
                 $info['hostname'] = 'tls://' . $info['hostname'];
+                $isTLS = true;
             } else {
                 $info['hostname'] = 'ssl://' . $info['hostname'];
             }
@@ -163,7 +165,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
         }
 
         if (!empty($info['username'])) {
-            if ($this->PEAR->isError($e = $smtp->auth($info['username'], $info['password']))) {
+            if ($this->PEAR->isError($e = $smtp->auth($info['username'], $info['password'], '', $isTLS))) {
                 $this->setError($e);
                 return null;
             }
