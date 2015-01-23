@@ -145,7 +145,11 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
         );
 
         if ($info['use_ssl']) {
-            $info['hostname'] = 'ssl://' . $info['hostname'];
+            if ('tls' === $info['use_ssl']) {
+                $info['hostname'] = 'tls://' . $info['hostname'];
+            } else {
+                $info['hostname'] = 'ssl://' . $info['hostname'];
+            }
             if (empty($info['port'])) {
                 $info['port'] = self::DEFAULT_SSL_PORT;
             }

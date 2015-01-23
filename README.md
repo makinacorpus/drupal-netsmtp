@@ -110,6 +110,10 @@ Note that for now this only supports the PLAIN and LOGIN authentication
 methods, I am definitly too lazy to include the Auth_SASL PEAR package
 as well.
 
+Additionnaly, you can change the 'use_ssl' paramater to the 'tls' value
+instead, and hope for the best to happen, it should force the Net::SMTP
+library to do a TLS connection instead.
+
 ### Advanced SMTP configuration
 
 Additionnaly you can define a set of servers, for example if you need a
