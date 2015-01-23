@@ -132,6 +132,25 @@ You can then force mails to go throught another server than default by
 setting the 'smtp_provider' key in the Drupal $message array when sending
 mail.
 
+### Overriding the proxy
+
+Additionnaly, if you have specific business needs, you can override the
+proxy class, start by writing your own such as:
+
+    MyProxy extends NetSmtp_MailSystemProxy
+    {
+        // Do something
+    }
+
+Then register it in any autoloader.
+
+Then, tell the net-smtp module to use it instead of the stock provided one
+into your settings.php file:
+
+    $conf['mail_system'] = array(
+      'default-system' => 'MyProxy'
+    );
+
 ### Debugging
 
 Additionally you can enable a debug output that will dump all MIME encoded

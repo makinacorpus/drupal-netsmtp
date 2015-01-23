@@ -41,10 +41,23 @@ class NetSmtp_MailSystemProxy implements MailSystemInterface
     }
 
     /**
+     * Get mailer for message type
+     *
+     * @param array $message
+     *   Message to be sent
+     *
+     * @return MailSystemInterface
+     */
+    public function getMailer($message)
+    {
+        return $this->mailer;
+    }
+
+    /**
      * Get formatter for message type
      *
-     * @param string $type
-     *   Configuration identifier
+     * @param array $message
+     *   Message to be formatter
      *
      * @return MailSystemInterface
      */
@@ -82,7 +95,7 @@ class NetSmtp_MailSystemProxy implements MailSystemInterface
 
     public function mail(array $message)
     {
-        if (!$this->mailer->mail($message + $this->options)) {
+        if (!$this->getMailer($message)->mail($message + $this->options)) {
             trigger_error(sprintf("Error while sending mail, HEADERS: <pre>%s</pre>, MAILER: <pre>%s</pre>", print_r($message['headers'], true), get_class($this->mailer)), E_USER_ERROR);
             return false;
         }
