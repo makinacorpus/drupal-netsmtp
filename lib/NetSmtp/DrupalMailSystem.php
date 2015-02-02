@@ -261,12 +261,19 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
         }
 
         // And the ugly part is, append body like a real Viking would do!
+        $status = true;
         if ($this->PEAR->isError($e = $smtp->data($message['body'], implode("\n", $headers)))) {
             $this->setError($e);
-            return false;
+            $status = false;
+        }
+
+        if (variable_get('netsmtp_debug_mime')) {
+            $path = 'temporary://netsmtp';
+            file_prepare_directory($path, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
+            file_put_contents($path . '/' . $provider . '-' . date('Y_m_d-H_i_s'). '.mbox', implode("\n", $headers) . "\n\n" . $message['body']);
         }
 
         $smtp->disconnect();
-        return true;
+        return $status;
     }
 }
