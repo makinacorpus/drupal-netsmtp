@@ -155,6 +155,14 @@ into your settings.php file:
       'default-system' => 'MyProxy'
     );
 
+### Additional configuration
+
+Per default this module uses the Drupal native function correctly encode
+mail subjects, if you use a formatter that does the job for you, set
+the _netsmtp\_subject\_encode_ to false to deactivate this behavior:
+
+    $conf['netsmtp_subject_encode'] = false;
+
 ### Debugging
 
 Additionally you can enable a debug output that will dump all MIME encoded

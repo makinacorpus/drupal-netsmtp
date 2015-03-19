@@ -206,7 +206,11 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
             $message['body'] = implode("\n", $message['body']);
         }
         if (empty($message['headers']['Subject'])) {
-            $message['headers']['Subject'] = $message['subject'];
+            if (variable_get('netsmtp_subject_encode', true)) {
+                $message['headers']['Subject'] = mime_header_encode($message['subject']);
+            } else {
+                $message['headers']['Subject'] = $message['subject'];
+            }
         }
 
         // Drupal black magic: we have to find the sender FROM into the
