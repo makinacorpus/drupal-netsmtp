@@ -178,8 +178,6 @@ And every mail will be dumped into the Drupal:
 
 temp folder.
 
-NOTE: This is yet to be implemented.
-
 #### Sent mail trace
 
 This probably should belong to another module, but if you need extensive mail
