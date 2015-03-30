@@ -165,18 +165,35 @@ the _netsmtp\_subject\_encode_ to false to deactivate this behavior:
 
 ### Debugging
 
+#### Sent data dumping
+
 Additionally you can enable a debug output that will dump all MIME encoded
 messages this module will send onto the file system. Just set:
 
-    $conf['netsmtp_debug_mime'] = true,
+    $conf['netsmtp_debug_mime'] = true;
 
 And every mail will be dumped into the Drupal:
 
-    temporary://netsmtp/
+    temporary://netsmtp
 
 temp folder.
 
 NOTE: This is yet to be implemented.
+
+#### Sent mail trace
+
+This probably should belong to another module, but if you need extensive mail
+tracing logging, you can enable:
+
+    $conf['netsmtp_debug_trace'] = true;
+
+This will activate a _hook\_mail\_alter()_ implementation that will log every
+mail activity sent by the plateform in a single file:
+
+    temporary://netsmtp-YYYY-MM-DD.log
+
+In this file you'll find various internal Drupal modules information about the
+mails being sent, including the stack trace at the time the mail is beint sent.
 
 ## Bundled libraries
 

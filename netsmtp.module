@@ -28,3 +28,26 @@ function netsmtp_boot() {
     });
   }
 }
+
+/**
+ * Implements hook_mail_alter().
+ */
+function netsmtp_mail_alter(&$message) {
+  if (variable_get('netsmtp_debug_trace', false)) {
+
+    $filename = 'temporary://netsmtp-' . date('Y-m-d') . '.log';
+
+    $data = array();
+    $data[] = 'Sent at ' . date('Y_m_d-H_i_s');
+    $data[] = 'Module: ' . $message['module'] . ', key: ' . $message['key'];
+    $data[] = 'Recipient: ' . $message['to'];
+    $data[] = 'Subject: ' . $message['subject'];
+    $data[] = 'Stack trace:';
+    ob_start();
+    debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+    $data[] = ob_get_clean();
+    $data[] = '';
+
+    file_put_contents($filename, implode("\n", $data), FILE_APPEND | LOCK_EX );
+  }
+}
