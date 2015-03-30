@@ -272,7 +272,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
         }
 
         if (variable_get('netsmtp_debug_mime')) {
-            $path = 'temporary://netsmtp';
+            $path = variable_get('netsmtp_debug_mime_path', 'temporary://netsmtp');
             file_prepare_directory($path, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
             file_put_contents($path . '/' . $provider . '-' . date('Y_m_d-H_i_s'). '.mbox', implode("\n", $headers) . "\n\n" . $message['body']);
         }

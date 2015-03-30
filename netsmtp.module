@@ -35,7 +35,9 @@ function netsmtp_boot() {
 function netsmtp_mail_alter(&$message) {
   if (variable_get('netsmtp_debug_trace', false)) {
 
-    $filename = 'temporary://netsmtp-' . date('Y-m-d') . '.log';
+    $path = variable_get('netsmtp_debug_trace_path', 'temporary://netsmtp');
+    file_prepare_directory($path, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
+    $filename = $path . '/netsmtp-trace-' . date('Y-m-d') . '.log';
 
     $data = array();
     $data[] = 'Sent at ' . date('Y_m_d-H_i_s');

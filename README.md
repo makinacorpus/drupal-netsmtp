@@ -172,11 +172,13 @@ messages this module will send onto the file system. Just set:
 
     $conf['netsmtp_debug_mime'] = true;
 
-And every mail will be dumped into the Drupal:
+And every mail will be dumped into the following Drupal temp folder:
 
     temporary://netsmtp
 
-temp folder.
+Additionnaly you can change the path using this variable:
+
+    $conf['netsmtp_debug_mime_path'] = 'private://netsmtp';
 
 #### Sent mail trace
 
@@ -188,10 +190,14 @@ tracing logging, you can enable:
 This will activate a _hook\_mail\_alter()_ implementation that will log every
 mail activity sent by the plateform in a single file:
 
-    temporary://netsmtp-YYYY-MM-DD.log
+    temporary://netsmtp/netsmtp-trace-YYYY-MM-DD.log
 
 In this file you'll find various internal Drupal modules information about the
 mails being sent, including the stack trace at the time the mail is beint sent.
+
+Additionnaly you can change the path using this variable:
+
+    $conf['netsmtp_debug_trace_path'] = 'private://netsmtp';
 
 ## Bundled libraries
 
