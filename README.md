@@ -174,7 +174,7 @@ messages this module will send onto the file system. Just set:
 
 And every mail will be dumped into the following Drupal temp folder:
 
-    temporary://netsmtp
+    temporary://netsmtp/YYYY-MM-DD/
 
 Additionnaly you can change the path using this variable:
 
