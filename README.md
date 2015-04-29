@@ -225,18 +225,18 @@ Additionnaly you can change the path using this variable:
 PEAR and other libraries are included into this module for the sake of
 simplicity.
 
-### PEAR ###
+### PEAR
 
 PEAR v1.9.5 - Licensed under The New BSD License
 
 Note that if you have a PHP compiled with the PEAR option native one will
 be used instead. This should not be a problem.
 
-### Net_Socket ###
+### Net_Socket
 
 Net_Socket v1.0.14 - Licensed under the PHP Licence v3.01
 
-### Net_SMTP ### 
+### Net_SMTP 
 
 Net_SMTP v1.6.2 - Licensed under the PHP Licence v3.01
 
