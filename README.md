@@ -165,7 +165,7 @@ the _netsmtp\_subject\_encode_ to false to deactivate this behavior:
 
 ### Debugging
 
-### Re-route all outgoing mail
+#### Re-route all outgoing mail
 
 This feature is useful when working in a development phase where you don't
 want mails to be sent to their real recipients. In order to activate it
