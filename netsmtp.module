@@ -33,6 +33,7 @@ function netsmtp_boot() {
  * Implements hook_mail_alter().
  */
 function netsmtp_mail_alter(&$message) {
+
   if (variable_get('netsmtp_debug_trace', false)) {
 
     $path = variable_get('netsmtp_debug_trace_path', 'temporary://netsmtp');
@@ -51,5 +52,24 @@ function netsmtp_mail_alter(&$message) {
     $data[] = '';
 
     file_put_contents($filename, implode("\n", $data), FILE_APPEND | LOCK_EX );
+  }
+
+  if ($recipient = variable_get('netsmtp_catch', [])) {
+
+    $message['headers']['X-Catched-Mail-Key'] = isset($message['id']) ? $message['id'] : null;
+    $message['headers']['X-Catched-Website'] = url('<front>', array('absolute' => true));
+    $message['headers']['X-Catched-Original-To'] = $message['to'];
+    $message['to'] = is_array($recipient) ? implode(',', $recipient) : $recipient;
+
+    foreach ($message['headers'] as $header => $value) {
+      switch (strtolower($header)) {
+
+        case 'cc':
+        case 'bcc':
+          unset($message['headers'][$header]);
+          $message['headers']['X-Rerouted-Original-' . $header] = $value;
+          break;
+      }
+    }
   }
 }

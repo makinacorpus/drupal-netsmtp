@@ -165,6 +165,27 @@ the _netsmtp\_subject\_encode_ to false to deactivate this behavior:
 
 ### Debugging
 
+### Re-route all outgoing mail
+
+This feature is useful when working in a development phase where you don't
+want mails to be sent to their real recipients. In order to activate it
+just set:
+
+    $conf['netsmtp_catch'] = 'someuser@example.com';
+
+Moreover, you can set multiple recipients:
+
+    $conf['netsmtp_catch'] = array(
+      'user1@example.com',
+      'user2@example.com',
+      'user3@example.com',
+      // ...
+    );
+
+Be careful that this is a debug feature and the recipient user addresses
+won't be processed in any way, which means that you can set a mail address
+containing a ',' character, it won't be escaped.
+
 #### Sent data dumping
 
 Additionally you can enable a debug output that will dump all MIME encoded
