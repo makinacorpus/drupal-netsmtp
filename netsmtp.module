@@ -54,7 +54,7 @@ function netsmtp_mail_alter(&$message) {
     file_put_contents($filename, implode("\n", $data), FILE_APPEND | LOCK_EX );
   }
 
-  if ($recipient = variable_get('netsmtp_catch', [])) {
+  if ($recipient = variable_get('netsmtp_catch', array())) {
 
     $message['headers']['X-Catched-Mail-Key'] = isset($message['id']) ? $message['id'] : null;
     $message['headers']['X-Catched-Website'] = url('<front>', array('absolute' => true));
