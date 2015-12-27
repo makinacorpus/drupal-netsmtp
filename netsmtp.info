@@ -1,3 +1,5 @@
 name = Net SMTP
 description = SMTP connector using Net_SMTP PEAR library
+package = Mail
 core = 7.x
+php = 5.3
