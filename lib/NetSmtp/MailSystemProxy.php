@@ -63,11 +63,13 @@ class NetSmtp_MailSystemProxy implements MailSystemInterface
      */
     protected function getFormatter($message)
     {
-        $candidates = array(
-            $message['module'] . '_' . $message['key'],
-            $message['module'],
-            self::MAIL_DEFAULT,
-        );
+        $candidates = array();
+        $candidates[] = $message['module'] . '_' . $message['key'];
+        if (isset($message['formatter'])) {
+            $candidates[] = $message['formatter'];
+        }
+        $candidates[] = $message['module'];
+        $candidates[] = self::MAIL_DEFAULT;
 
         foreach ($candidates as $key) {
             if (isset($this->classes[$key])) {

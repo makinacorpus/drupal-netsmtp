@@ -23,6 +23,8 @@ function netsmtp_boot() {
         return include_once __DIR__ . '/lib/NetSmtp/DrupalMailSystem.php';
       } else if ('NetSmtp_MailSystemProxy' === $name) {
         return include_once __DIR__ . '/lib/NetSmtp/MailSystemProxy.php';
+      } else if ('NetSmtp_RawFormatter' === $name) {
+        return include_once __DIR__ . '/lib/NetSmtp/RawFormatter.php';
       }
       return false;
     });
