@@ -1,0 +1,20 @@
+{
+    "name" : "makinacorpus/drupal-netsmtp",
+    "type" : "drupal-module",
+    "description" : "Drupal SMTP module based upon PEAR::Net_SMTP",
+    "homepage" : "http://github.com/makinacorpus/drupal-netsmtp",
+    "license" : "GPL-2",
+    "authors" : [
+        {
+            "name" : "Pierre Rineau",
+            "email" : "pierre.rineau@makina-corpus.com"
+        },
+        {
+            "name" : "Makina Corpus",
+            "homepage" : "http://makina-corpus.com"
+        }
+    ],
+    "minimum-stability" : "dev",
+    "prefer-stable" : true
+}
+
