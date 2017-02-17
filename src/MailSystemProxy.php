@@ -1,6 +1,12 @@
 <?php
 
-class NetSmtp_MailSystemProxy implements MailSystemInterface
+namespace MakinaCorpus\Drupal\NetSmtp;
+
+/**
+ * Delegates and dispatches mail formatting and sending to different
+ * implementations depending upon configuration.
+ */
+class MailSystemProxy implements \MailSystemInterface
 {
     /**
      * Fallback identifier
@@ -10,10 +16,10 @@ class NetSmtp_MailSystemProxy implements MailSystemInterface
     /**
      * Default mail class
      */
-    const DEFAULT_CLASS = 'DefaultMailSystem';
+    const DEFAULT_CLASS = '\DefaultMailSystem';
 
     /**
-     * @var MailSystemInterface
+     * @var \MailSystemInterface
      */
     protected $mailer;
 
@@ -35,9 +41,9 @@ class NetSmtp_MailSystemProxy implements MailSystemInterface
      */
     public function __construct()
     {
-        $this->options = array();
+        $this->options = [];
         $this->classes = variable_get('netsmtp_proxy');
-        $this->mailer = new NetStmp_DrupalMailSystem();
+        $this->mailer = new DrupalMailSystem();
     }
 
     /**
@@ -46,7 +52,7 @@ class NetSmtp_MailSystemProxy implements MailSystemInterface
      * @param array $message
      *   Message to be sent
      *
-     * @return MailSystemInterface
+     * @return \MailSystemInterface
      */
     public function getMailer($message)
     {
@@ -59,11 +65,11 @@ class NetSmtp_MailSystemProxy implements MailSystemInterface
      * @param array $message
      *   Message to be formatter
      *
-     * @return MailSystemInterface
+     * @return \MailSystemInterface
      */
     protected function getFormatter($message)
     {
-        $candidates = array();
+        $candidates = [];
         $candidates[] = $message['module'] . '_' . $message['key'];
         if (isset($message['formatter'])) {
             $candidates[] = $message['formatter'];
@@ -90,17 +96,25 @@ class NetSmtp_MailSystemProxy implements MailSystemInterface
         return new $class();
     }
 
-    public function format(array $message) 
+    /**
+     * {@inheritdoc}
+     */
+    public function format(array $message)
     {
         return $this->getFormatter($message)->format($message + $this->options);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function mail(array $message)
     {
         if (!$this->getMailer($message)->mail($message + $this->options)) {
             trigger_error(sprintf("Error while sending mail, HEADERS: <pre>%s</pre>, MAILER: <pre>%s</pre>", print_r($message['headers'], true), get_class($this->mailer)), E_USER_ERROR);
+
             return false;
         }
+
         return true;
     }
 }

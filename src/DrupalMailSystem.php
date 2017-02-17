@@ -1,5 +1,7 @@
 <?php
 
+namespace MakinaCorpus\Drupal\NetSmtp;
+
 /**
  * Net_SMTP mail system connector.
  *
@@ -10,7 +12,7 @@
  * Most functions are protected, so that anyone that wants to change some
  * behavior can still extend this object and modify whatever they want.
  */
-class NetStmp_DrupalMailSystem implements MailSystemInterface
+class DrupalMailSystem implements \MailSystemInterface
 {
     /**
      * Default provider key
@@ -33,7 +35,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
     const REGEX_TO = '';
 
     /**
-     * @var PEAR
+     * @var \PEAR
      */
     private $PEAR;
 
@@ -43,7 +45,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
     public function __construct()
     {
         // Fuck hate PEAR.
-        $this->PEAR = new PEAR();
+        $this->PEAR = new \PEAR();
     }
 
     /**
@@ -58,7 +60,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
      */
     protected function catchAddressesInto($string)
     {
-        $ret = array();
+        $ret = [];
 
         if (empty($string)) {
             return null; // Please bitch... Not my problem
@@ -69,7 +71,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
 
         // And thus, there is no risk anymore to find ',' except as separator
         foreach (explode(",", $string) as $addr) {
-            $m = array();
+            $m = [];
             if (preg_match('/<([^\>]+)?>/', $addr, $m)) {
                 $ret[] = trim($m[1]);
             } else {
@@ -89,7 +91,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
     {
         if (is_string($e)) {
             $message = $e;
-        } else if ($e instanceof PEAR_Error) {
+        } else if ($e instanceof \PEAR_Error) {
             // God PEAR is so 90's, but I have to use it because no other
             // viable PHP SMTP library exists outside of Net_SMTP. Even
             // the Roundcube webmail client understood it.
@@ -137,13 +139,13 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
             return null;
         }
 
-        $info = array_filter($config[$provider]) + array(
+        $info = array_filter($config[$provider]) + [
             'port'      => null,
             'username'  => null,
             'use_ssl'   => false,
             'password'  => '',
             'localhost' => null,
-        );
+        ];
 
         if ($info['use_ssl']) {
             if ('tls' === $info['use_ssl']) {
@@ -158,7 +160,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
         }
 
         // Attempt connection
-        $smtp = new Net_SMTP($info['hostname'], $info['port'], $info['localhost']);
+        $smtp = new \Net_SMTP($info['hostname'], $info['port'], $info['localhost']);
         if ($this->PEAR->isError($e = $smtp->connect())) {
             $this->setError($e);
             return null;
@@ -177,7 +179,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
 
     public function format(array $message)
     {
-        watchdog('netsmtp', "I am not meant to format messages, sorry", array(), WATCHDOG_ERROR);
+        watchdog('netsmtp', "I am not meant to format messages, sorry", [], WATCHDOG_ERROR);
         return false;
     }
 
@@ -199,7 +201,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
         // formatting ourselves, this would be an serious error vulgaris
         // that every one seem to do... God I hate people.
         if (empty($message['body'])) {
-            watchdog('netsmtp', "Sending an empty mail", array(), WATCHDOG_WARNING);
+            watchdog('netsmtp', "Sending an empty mail", [], WATCHDOG_WARNING);
             $message['body'] = '';
         }
         if (is_array($message['body'])) {
@@ -253,7 +255,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
         }
 
         // Also note that the Net_SMTP library wants headers to be a string too
-        $headers = array();
+        $headers = [];
         foreach ($message['headers'] as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $_value) {
@@ -279,6 +281,7 @@ class NetStmp_DrupalMailSystem implements MailSystemInterface
         }
 
         $smtp->disconnect();
+
         return $status;
     }
 }

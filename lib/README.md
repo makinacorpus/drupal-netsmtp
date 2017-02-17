@@ -1,1 +1,0 @@
-Doesn't look like it, but everything in here is actually PSR-0.

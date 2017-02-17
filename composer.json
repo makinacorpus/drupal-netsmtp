@@ -14,7 +14,14 @@
             "homepage" : "http://makina-corpus.com"
         }
     ],
+    "autoload" : {
+        "psr-4" : {
+            "MakinaCorpus\\Drupal\\NetSmtp\\" : "src/"
+        }
+    },
     "minimum-stability" : "dev",
-    "prefer-stable" : true
+    "prefer-stable" : true,
+    "require": {
+        "pear/net_smtp": "^1.7"
+    }
 }
-
