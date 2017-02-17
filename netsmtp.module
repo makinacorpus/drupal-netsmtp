@@ -4,6 +4,13 @@
  * Net SMTP module.
  */
 
+use MakinaCorpus\Drupal\NetSmtp\MailSystemProxy;
+
+/**
+ * Provide backward compatibility
+ */
+class_alias(MailSystemProxy::class, '\NetSmtp_MailSystemProxy');
+
 /**
  * Implements hook_mail_alter().
  */
