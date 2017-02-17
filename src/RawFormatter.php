@@ -15,7 +15,7 @@ class RawFormatter implements \MailSystemInterface
         if (is_array($message['body'])) {
             $message['body'] = implode("\n", $message['body']);
         } else {
-            $message['body'] =(string)$message['body'];
+            $message['body'] = (string)$message['body'];
         }
 
         return $message;

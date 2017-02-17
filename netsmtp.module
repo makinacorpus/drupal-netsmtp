@@ -55,3 +55,16 @@ function netsmtp_mail_alter(&$message) {
     }
   }
 }
+
+/**
+ * Implements hook_mail.
+ */
+function netsmtp_mail($key, &$message, $params) {
+  switch ($key) {
+
+    case 'test':
+      $message['subject'] = "Coucou, this is a test message from the NetSMTP Drupal module";
+      $message['body'][] = "If you received it, it's all good.";
+      break;
+  }
+}
