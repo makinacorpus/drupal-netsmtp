@@ -1,4 +1,0 @@
-name = Net SMTP - UI
-description = Administrative UI for people that don't want to manually edit their settings.php file
-dependencies[] = netsmtp
-core = 7.x
