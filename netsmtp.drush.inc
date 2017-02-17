@@ -10,7 +10,13 @@ use MakinaCorpus\Drupal\NetSmtp\MailSystemProxy;
  */
 function netsmtp_drush_command() {
   return [
-    'netsmtp-test' => [
+    'netsmtp-config-test' => [
+      'description' => "Test your Drupal SMTP configuration",
+      'arguments'   => [
+        'email'     => "Testing e-mail address to send the mail too, you might set as many as you wish, space-separated",
+      ],
+    ],
+    'netsmtp-smtp-test' => [
       'description' => "Connect to an arbitrary SMTP server and send a test mail",
       'arguments'   => [
         'email'     => "Testing e-mail address to send the mail too, you might set as many as you wish, space-separated",
@@ -30,7 +36,21 @@ function netsmtp_drush_command() {
 /**
  * Run the test mail.
  */
-function drush_netsmtp_test() {
+function drush_netsmtp_config_test() {
+
+  $arguments = func_get_args();
+  if (empty($arguments)) {
+    drush_print("you need to give me at least one e-mail address");
+    return 1;
+  }
+
+  drupal_mail('netsmtp', 'test', $arguments[0], 'en');
+}
+
+/**
+ * Run the test mail.
+ */
+function drush_netsmtp_smtp_test() {
 
   $arguments = func_get_args();
   if (empty($arguments)) {
