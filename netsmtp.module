@@ -7,7 +7,7 @@
 use MakinaCorpus\Drupal\NetSmtp\MailSystemProxy;
 
 /**
- * Provide backward compatibility
+ * Provide backward compatibility.
  */
 class_alias(MailSystemProxy::class, '\NetSmtp_MailSystemProxy');
 
@@ -15,6 +15,10 @@ class_alias(MailSystemProxy::class, '\NetSmtp_MailSystemProxy');
  * Implements hook_mail_alter().
  */
 function netsmtp_mail_alter(&$message) {
+
+  if ($headers = variable_get('netsmtp_additional_headers', [])) {
+    $message['headers'] = array_merge($message['headers'], $headers);
+  }
 
   if (variable_get('netsmtp_debug_trace', false)) {
 

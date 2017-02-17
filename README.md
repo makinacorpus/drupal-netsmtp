@@ -14,7 +14,7 @@ formatter and mailer.
 In order to use it, simply add to your settings.php file:
 
     $conf['mail_system'] = array(
-      'default-system' => 'NetSmtp_MailSystemProxy'
+      'default-system' => '\\MakinaCorpus\\Drupal\\NetSmtp\\MailSystemProxy'
     );
 
 Then you can set the formatter this way:
@@ -110,12 +110,26 @@ setting the 'smtp_provider' key in the Drupal $message array when sending
 mail.
 
 
+### Add additional fixed headers to all outgoing mail
+
+You may, for various purposes, need to add arbitrary platform driven headers
+to your mail, for this:
+
+    $conf['netsmtp_additional_headers'] = [
+        'X-FORWARD' => 'some value',
+        'X-USERNAME' => '...',
+        // ...
+    ];
+
+
 ### Overriding the proxy
 
 Additionnaly, if you have specific business needs, you can override the
 proxy class, start by writing your own such as:
 
-    MyProxy extends NetSmtp_MailSystemProxy
+    use MakinaCorpus\Drupal\NetSmtp\MailSystemProxy
+
+    MyProxy extends MailSystemProxy
     {
         // Do something
     }
