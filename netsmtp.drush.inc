@@ -57,8 +57,7 @@ function drush_netsmtp_test() {
   }
 
   if (isset($options['password']) && 'ask' === $options['password']) {
-    drush_print("password prompt is not implemented yet");
-    return 1;
+    $options['password'] = drush_prompt("password", null, true, true);
   }
 
   // Trick Drupal, give him our information.
