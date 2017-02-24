@@ -265,7 +265,11 @@ class DrupalMailSystem implements \MailSystemInterface
 
         // Also note that the Net_SMTP library wants headers to be a string too
         $headers = [];
+        $hasDate = false;
         foreach ($message['headers'] as $name => $value) {
+            if ('date' === strtolower($name)) {
+                $hasDate = true;
+            }
             if (is_array($value)) {
                 foreach ($value as $_value) {
                     $headers[] = $name . ": " . $_value;
@@ -273,6 +277,11 @@ class DrupalMailSystem implements \MailSystemInterface
             } else {
                 $headers[] = $name . ": " . $value;
             }
+        }
+
+        // "Date" header is mandatory, some SMTP could reject the mail without.
+        if (!$hasDate) {
+            array_unshift($headers, 'Date: ' . (new \DateTime())->format('D, j M Y H:i:s O'));
         }
 
         // And the ugly part is, append body like a real Viking would do!
