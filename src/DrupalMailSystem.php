@@ -242,7 +242,9 @@ class DrupalMailSystem implements \MailSystemInterface
         }
 
         $atLeastOne = false;
-        foreach ($this->catchAddressesInto($message['to']) as $to) {
+        $recipients = $this->catchAddressesInto($message['to']);
+
+        foreach ($recipients as $to) {
             if ($this->PEAR->isError($e = $smtp->rcptTo($to))) {
                 $this->setError($e);
             } else {
@@ -253,6 +255,13 @@ class DrupalMailSystem implements \MailSystemInterface
             $this->setError("No RCPT was accepted by the SMTP server", WATCHDOG_ERROR);
             return false;
         }
+
+        // Add at least one recipient in the "To" header. "To" header is
+        // optionnal in the RFC, and supposed to never be processed, since it's
+        // a field which purpose is for client display only, nevertheless most
+        // mail service providers use it in order to filter potential spam;
+        // which is wrong in regard of the RFCs but we have to deal with it.
+        $message['headers']['To'] = implode(", ", $recipients);
 
         // Also note that the Net_SMTP library wants headers to be a string too
         $headers = [];
