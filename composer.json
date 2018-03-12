@@ -3,7 +3,7 @@
     "type" : "drupal-module",
     "description" : "Drupal SMTP module based upon PEAR::Net_SMTP",
     "homepage" : "http://github.com/makinacorpus/drupal-netsmtp",
-    "license" : "GPL-2",
+    "license" : "GPL-2.0-or-later",
     "authors" : [
         {
             "name" : "Pierre Rineau",
