@@ -212,6 +212,27 @@ class DrupalMailSystem implements \MailSystemInterface
             \file_put_contents($filename, \implode("\n", $data), FILE_APPEND | LOCK_EX );
         }
 
+        $exposed = [];
+        $doExpose = (bool)\variable_get('netsmtp_project_expose_subject', true);
+        if ($environment = \variable_get('netsmtp_project_env')) {
+            // Leave production alone
+            if (\strtolower(\substr($environment, 0, 4)) !== 'prod') {
+                $message['headers']['X-Project-Env'] = $environment; // @todo escaping/encoding?
+                $exposed[] = $environment;
+            }
+        }
+        if ($project = \variable_get('netsmtp_project_name')) {
+            $message['headers']['X-Project-Name'] = $project; // @todo escaping/encoding?
+            $exposed[] = $project;
+        }
+        if ($doExpose && $exposed) {
+            $exposedString = \implode(' - ', $exposed);
+            if (!empty($message['headers']['Subject'])) {
+                $message['subject'] = \sprintf('[%s] %s', $exposedString, $message['headers']['Subject']);
+            }
+            $message['subject'] = \sprintf('[%s] %s', $exposedString, $message['subject']);
+        }
+
         if ($recipient = \variable_get('netsmtp_catch', [])) {
 
             $message['headers']['X-Catched-Mail-Key'] = isset($message['id']) ? $message['id'] : null;

@@ -110,6 +110,34 @@ setting the 'smtp_provider' key in the Drupal $message array when sending
 mail.
 
 
+## Identifying the project
+
+If you need to identify mails from various projects and environments you
+may use one of, or any combination of the two the following variables:
+
+    $conf['netsmtp_project_name'] = 'My client business project';
+    $conf['netsmtp_project_env'] = 'staging';
+
+Both are arbitrary values that could be set to any value without creating
+any side effect to mail being sent.
+
+They both map to additional mail headers being added ot mails:
+
+ - `X-Project-Name` will contain the `netsmtp_project_name` value,
+ - `X-Project-Env` will contain the `netsmtp_project_env` value.
+
+There is one exception, if `netsmtp_project_env` begins with `prod` (case
+insensitive) then the `X-Project-Env` header will be dropped, and mail subject
+will be left untouched, no matter what other debug options are set.
+
+Per default, setting the environment to anything else than a string begining
+with the `prod` substring, subject will be altered and will start with a
+string containing the project name and project environment. To deactivate this
+alteration, just set:
+
+    $conf['netsmtp_project_expose_subject'] = false;
+
+
 ### Add additional fixed headers to all outgoing mail
 
 You may, for various purposes, need to add arbitrary platform driven headers
