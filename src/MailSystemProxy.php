@@ -42,7 +42,7 @@ class MailSystemProxy implements \MailSystemInterface
     public function __construct()
     {
         $this->options = [];
-        $this->classes = variable_get('netsmtp_proxy');
+        $this->classes = \variable_get('netsmtp_proxy');
         $this->mailer = new DrupalMailSystem();
     }
 
@@ -80,8 +80,8 @@ class MailSystemProxy implements \MailSystemInterface
         foreach ($candidates as $key) {
             if (isset($this->classes[$key])) {
                 $class = $this->classes[$key];
-                if (!class_exists($class)) {
-                    watchdog('netsmtp_proxy_', "Class @class does not exist, fallback to Drupal default", array('@class' => $class), WATCHDOG_WARNING);
+                if (!\class_exists($class)) {
+                    \watchdog('netsmtp_proxy_', "Class @class does not exist, fallback to Drupal default", array('@class' => $class), WATCHDOG_WARNING);
                     $class = self::DEFAULT_CLASS;
                 } else {
                     break;
@@ -110,7 +110,7 @@ class MailSystemProxy implements \MailSystemInterface
     public function mail(array $message)
     {
         if (!$this->getMailer($message)->mail($message + $this->options)) {
-            trigger_error(sprintf("Error while sending mail, HEADERS: <pre>%s</pre>, MAILER: <pre>%s</pre>", print_r($message['headers'], true), get_class($this->mailer)), E_USER_ERROR);
+            \trigger_error(\sprintf("Error while sending mail, HEADERS: <pre>%s</pre>, MAILER: <pre>%s</pre>", \print_r($message['headers'], true), \get_class($this->mailer)), E_USER_ERROR);
 
             return false;
         }
