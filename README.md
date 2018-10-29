@@ -13,25 +13,25 @@ formatter and mailer.
 
 In order to use it, simply add to your settings.php file:
 
-    $conf['mail_system'] = array(
+    $conf['mail_system'] = [
       'default-system' => '\\MakinaCorpus\\Drupal\\NetSmtp\\MailSystemProxy'
-    );
+    ];
 
 Then you can set the formatter this way:
 
-    $conf['netsmtp_proxy'] = array(
+    $conf['netsmtp_proxy'] = [
       'default' => 'MimeMailSystem',
-    );
+    ];
 
 If you need to specify specific formatters for other modules, you
 can use this variable the exact same way you would use the core
 'mail_system' variable:
 
-    $conf['netsmtp_proxy'] = array(
+    $conf['netsmtp_proxy'] = [
       'default' => 'MimeMailSystem',
       'MYMODULE' => 'SomeOtherFormatter',
       'MYMODULE_MYMAIL' => 'YetAnotherFormatter',
-    );
+    ];
 
 And that's pretty much it.
 
@@ -40,11 +40,11 @@ And that's pretty much it.
 
 At minima you would need to specify your SMTP server host:
 
-    $conf['netsmtp'] = array(
-      'default' => array(
+    $conf['netsmtp'] = [
+      'default' => [
         'hostname' => '1.2.3.4'
-      ),
-    );
+      ],
+    ];
 
 Hostname can be an IP or a valid hostname.
 
@@ -54,29 +54,29 @@ You can set the port if you wish using the 'port' key.
 
 If you need authentication, use this:
 
-    $conf['netsmtp'] = array(
-      'default' => array(
+    $conf['netsmtp'] = [
+      'default' => [
         'hostname' => 'smtp.provider.net',
         'username' => 'john',
         'password' => 'foobar',
-      ),
-    );
+      ],
+    ];
 
 And additionnaly, if you need to advertise yourself as a different hostname
 than the current localhost.localdomain, you can set the 'localhost' variable.
 
 An complete example:
 
-    $conf['netsmtp'] = array(
-      'default' => array(
+    $conf['netsmtp'] = [
+      'default' => [
         'hostname'  => 'smtp.provider.net',
         'port'      => 465,
         'use_ssl'   => true,
         'username'  => 'john',
         'password'  => 'foobar',
         'localhost' => 'host.example.tld',
-      ),
-    );
+      ],
+    ];
 
 Note that for now this only supports the PLAIN and LOGIN authentication
 methods, I am definitly too lazy to include the Auth_SASL PEAR package
@@ -92,18 +92,18 @@ library to do a TLS connection instead.
 Additionnaly you can define a set of servers, for example if you need a
 mailjet or mandrill connection:
 
-    $conf['netsmtp'] = array(
-      'default' => array(
+    $conf['netsmtp'] = [
+      'default' => [
         'host' => '1.2.3.4',
         'ssl'  => true,
-      ),
-      'mailjet' => array(
+      ],
+      'mailjet' => [
         'host' => '1.2.3.4',
         'ssl'  => true,
         'user' => 'john',
         'pass' => 'foobar',
-      ),
-    );
+      ],
+    ];
 
 You can then force mails to go throught another server than default by
 setting the 'smtp_provider' key in the Drupal $message array when sending
@@ -139,9 +139,9 @@ Then register it in any autoloader.
 Then, tell the net-smtp module to use it instead of the stock provided one
 into your settings.php file:
 
-    $conf['mail_system'] = array(
+    $conf['mail_system'] = [
       'default-system' => 'MyProxy'
-    );
+    ];
 
 
 ### Additional configuration
@@ -200,12 +200,12 @@ just set:
 
 Moreover, you can set multiple recipients:
 
-    $conf['netsmtp_catch'] = array(
+    $conf['netsmtp_catch'] = [
       'user1@example.com',
       'user2@example.com',
       'user3@example.com',
       // ...
-    );
+    ];
 
 Be careful that this is a debug feature and the recipient user addresses
 won't be processed in any way, which means that you can set a mail address

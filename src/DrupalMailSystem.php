@@ -198,7 +198,7 @@ class DrupalMailSystem implements \MailSystemInterface
             \file_prepare_directory($path, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
             $filename = $path . '/netsmtp-trace-' . \date('Y-m-d') . '.log';
 
-            $data = array();
+            $data = [];
             $data[] = 'Sent at ' . \date('Y_m_d-H_i_s');
             $data[] = 'Module: ' . $message['module'] . ', key: ' . $message['key'];
             $data[] = 'Recipient: ' . $message['to'];
@@ -212,10 +212,10 @@ class DrupalMailSystem implements \MailSystemInterface
             \file_put_contents($filename, \implode("\n", $data), FILE_APPEND | LOCK_EX );
         }
 
-        if ($recipient = \variable_get('netsmtp_catch', array())) {
+        if ($recipient = \variable_get('netsmtp_catch', [])) {
 
             $message['headers']['X-Catched-Mail-Key'] = isset($message['id']) ? $message['id'] : null;
-            $message['headers']['X-Catched-Website'] = \url('<front>', array('absolute' => true));
+            $message['headers']['X-Catched-Website'] = \url('<front>', ['absolute' => true]);
             $message['headers']['X-Catched-Original-To'] = $message['to'];
             $message['to'] = \is_array($recipient) ? \implode(',', $recipient) : $recipient;
 

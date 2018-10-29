@@ -81,7 +81,7 @@ class MailSystemProxy implements \MailSystemInterface
             if (isset($this->classes[$key])) {
                 $class = $this->classes[$key];
                 if (!\class_exists($class)) {
-                    \watchdog('netsmtp_proxy_', "Class @class does not exist, fallback to Drupal default", array('@class' => $class), WATCHDOG_WARNING);
+                    \watchdog('netsmtp_proxy_', "Class @class does not exist, fallback to Drupal default", ['@class' => $class], WATCHDOG_WARNING);
                     $class = self::DEFAULT_CLASS;
                 } else {
                     break;
